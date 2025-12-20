@@ -1,4 +1,4 @@
-export type fetchAnimeResponse = {
+type fetchAnimeResponse = {
   id: number;
   genres: string[];
   meanScore: number;
@@ -17,7 +17,25 @@ export type fetchAnimeResponse = {
   };
 };
 
-export async function fetchTrendingAnime(): Promise<fetchAnimeResponse[]> {
+type fetchAnimeResponseCard = {
+  id: number;
+  genres: string[];
+  meanScore: number;
+  description: string;
+  seasonYear: number;
+  episodes: number;
+  status: string;
+  title: {
+    english: string | null;
+    native: string | null;
+  };
+  coverImage: {
+    extraLarge: string;
+    color: string;
+  };
+};
+
+export async function fetchTrendingAnime(): Promise<fetchAnimeResponseCard[]> {
   const query = `
     query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort]) {
       Page(page: $page, perPage: $perPage) {
@@ -28,11 +46,10 @@ export async function fetchTrendingAnime(): Promise<fetchAnimeResponse[]> {
           id
           genres
           meanScore
-          bannerImage
           description
           seasonYear
-          season
           episodes
+          status
           title {
             english
             native
@@ -171,14 +188,22 @@ export async function fetchMostPopularAnime(): Promise<fetchAnimeResponse[]> {
 
   const month = new Date().getMonth();
   const year = new Date().getFullYear();
-  const season =
-    month >= 2 && month <= 4 //March to May
-      ? "SPRING"
-      : month >= 5 && month <= 7 //June to August
-        ? "SUMMER"
-        : month >= 8 && month <= 10 //September to November
-          ? "FALL"
-          : "WINTER";
+  const seasons = [
+    "WINTER",
+    "WINTER",
+    "SPRING",
+    "SPRING",
+    "SPRING",
+    "SUMMER",
+    "SUMMER",
+    "SUMMER",
+    "FALL",
+    "FALL",
+    "FALL",
+    "WINTER",
+  ];
+
+  const season = seasons[month];
 
   const variables = {
     page: 1,

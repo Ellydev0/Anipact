@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import styles from "./styles/Hero.module.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Star, ExternalLink, ChevronLeft } from "lucide-react";
 import { truncateText, stripHtml } from "@/lib/truncateText";
 import Nav from "../../components/Nav";
@@ -62,7 +62,10 @@ const Hero = () => {
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {trendingAnimeImage.map((image, i) => (
-          <div key={i} className="relative min-w-full h-full bg-muted">
+          <div
+            key={i}
+            className="relative min-w-full h-full bg-[url(/img/default.png)] bg-center"
+          >
             <Image
               src={image}
               alt=""
@@ -74,22 +77,24 @@ const Hero = () => {
         ))}
       </div>
 
-      <div className="flex w-full h-full justify-between items-center absolute -top-10 px-5 lg:px-8 lg:h-screen">
-        <ChevronLeft
-          strokeWidth={1.75}
-          size={40}
-          onClick={() =>
-            setIndex((index - 1 + (data?.length || 7)) % (data?.length || 7))
-          }
-          className="hover:bg-muted/60 hover:backdrop-blur-md p-1 rounded-sm transition-colors active:bg-muted/40 active:backdrop-blur-none"
-        />
-        <ChevronRight
-          strokeWidth={1.75}
-          onClick={() => setIndex((index + 1) % (data?.length || 7))}
-          size={40}
-          className="hover:bg-muted/60 hover:backdrop-blur-md p-1 rounded-sm transition-colors active:bg-muted/40 active:backdrop-blur-none"
-        />
-      </div>
+      {!isLoading && (
+        <div className="flex w-full h-full justify-between items-center absolute -top-10 px-5 lg:px-8 lg:h-screen">
+          <ChevronLeft
+            strokeWidth={1.75}
+            size={40}
+            onClick={() =>
+              setIndex((index - 1 + (data?.length || 7)) % (data?.length || 7))
+            }
+            className="hover:bg-muted/60 hover:backdrop-blur-md p-1 rounded-sm transition-colors active:bg-muted/40 active:backdrop-blur-none"
+          />
+          <ChevronRight
+            strokeWidth={1.75}
+            onClick={() => setIndex((index + 1) % (data?.length || 7))}
+            size={40}
+            className="hover:bg-muted/60 hover:backdrop-blur-md p-1 rounded-sm transition-colors active:bg-muted/40 active:backdrop-blur-none"
+          />
+        </div>
+      )}
 
       <div
         className={clsx(

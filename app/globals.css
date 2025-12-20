@@ -75,7 +75,7 @@
     --secondary-foreground: #e7e3ff;
 
     --muted: #9ba3ac;
-    --muted-foreground: #b6bcff; /* Slight blue tint */
+    --muted-foreground: #7d7d7d; /* Slight blue tint */
 
     --destructive: #720e07;
     --border: rgba(108, 92, 231, 0.15); /* Accent-tinted borders */
@@ -135,6 +135,16 @@
 @layer base {
     html {
         font-size: var(--font-size);
+        overflow-x: hidden;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE + Edge*/
+        scrollbar-width: none; /* Firefox*/
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none; /* Chrome, Safari*/
     }
 
     body {
