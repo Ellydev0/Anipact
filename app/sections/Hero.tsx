@@ -111,7 +111,7 @@ const Hero = () => {
               <TooltipTrigger className="">
                 {truncateText(
                   data?.[index]?.title?.english ||
-                    data?.[index]?.title?.native ||
+                    data?.[index]?.title?.romaji ||
                     "anipact",
                   17,
                 )}
@@ -130,7 +130,7 @@ const Hero = () => {
             <TooltipContent>
               <p>
                 {data?.[index]?.title?.english ||
-                  data?.[index]?.title?.native ||
+                  data?.[index]?.title?.romaji ||
                   "anipact"}
               </p>
             </TooltipContent>

@@ -137,6 +137,9 @@
         font-size: var(--font-size);
         overflow-x: hidden;
     }
+    .bg-default {
+        background-image: url("/img/default.png");
+    }
 
     .no-scrollbar {
         -ms-overflow-style: none; /* IE + Edge*/

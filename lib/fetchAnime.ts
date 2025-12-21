@@ -1,47 +1,19 @@
-type fetchAnimeResponse = {
-  id: number;
-  genres: string[];
-  meanScore: number;
-  bannerImage: string | null;
-  description: string;
-  seasonYear: number;
-  season: "FALL" | "WINTER" | "SUMMER" | "SPRING";
-  episodes: number;
-  title: {
-    english: string | null;
-    native: string | null;
-  };
-  coverImage: {
-    extraLarge: string;
-    color: string;
-  };
-};
+import type {
+  fetchMostPopularAnimeResponse,
+  fetchPopularAnimeResponse,
+  fetchTrendingAnimeResponse,
+} from "./fetchAnimeTypes";
 
-type fetchAnimeResponseCard = {
-  id: number;
-  genres: string[];
-  meanScore: number;
-  description: string;
-  seasonYear: number;
-  episodes: number;
-  status: string;
-  title: {
-    english: string | null;
-    native: string | null;
-  };
-  coverImage: {
-    extraLarge: string;
-    color: string;
-  };
-};
-
-export async function fetchTrendingAnime(): Promise<fetchAnimeResponseCard[]> {
+export async function fetchTrendingAnime({
+  pageParam = 1,
+}): Promise<fetchTrendingAnimeResponse> {
   const query = `
     query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort]) {
       Page(page: $page, perPage: $perPage) {
-        pageInfo {
-          hasNextPage
-        }
+      pageInfo {
+           currentPage
+           hasNextPage
+         }
         media(type: $type, sort: $sort) {
           id
           genres
@@ -49,10 +21,11 @@ export async function fetchTrendingAnime(): Promise<fetchAnimeResponseCard[]> {
           description
           seasonYear
           episodes
+          season
           status
           title {
             english
-            native
+            romaji
           }
           coverImage {
             extraLarge
@@ -63,8 +36,8 @@ export async function fetchTrendingAnime(): Promise<fetchAnimeResponseCard[]> {
   `;
 
   const variables = {
-    page: 1,
-    perPage: 4,
+    page: pageParam,
+    perPage: 8,
     type: "ANIME",
     sort: "TRENDING_DESC",
   };
@@ -82,14 +55,16 @@ export async function fetchTrendingAnime(): Promise<fetchAnimeResponseCard[]> {
       }),
     });
     const json = await res.json();
-    return json.data.Page.media;
+    return json.data.Page;
   } catch (e) {
     console.log(e);
     throw new Error("Failed to fetch trending anime");
   }
 }
 
-export async function fetchPopularAnime(): Promise<fetchAnimeResponse[]> {
+export async function fetchPopularAnime(): Promise<
+  fetchPopularAnimeResponse[]
+> {
   const query = `
     query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort],$season: MediaSeason, $seasonYear: Int) {
       Page(page: $page, perPage: $perPage) {
@@ -107,7 +82,7 @@ export async function fetchPopularAnime(): Promise<fetchAnimeResponse[]> {
           episodes
           title {
             english
-            native
+            romaji
           }
           coverImage {
             extraLarge
@@ -157,7 +132,9 @@ export async function fetchPopularAnime(): Promise<fetchAnimeResponse[]> {
   }
 }
 
-export async function fetchMostPopularAnime(): Promise<fetchAnimeResponse[]> {
+export async function fetchMostPopularAnime(): Promise<
+  fetchMostPopularAnimeResponse[]
+> {
   const query = `
     query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort],$season: MediaSeason, $seasonYear: Int) {
       Page(page: $page, perPage: $perPage) {
@@ -172,10 +149,9 @@ export async function fetchMostPopularAnime(): Promise<fetchAnimeResponse[]> {
           description
           seasonYear
           season
-          episodes
           title {
             english
-            native
+            romaji
           }
           coverImage {
             extraLarge
