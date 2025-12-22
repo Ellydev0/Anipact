@@ -1,9 +1,8 @@
 "use client";
 import AnimeCard from "@/components/AnimeCard";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { fetchTrendingAnime } from "@/lib/fetchAnime";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchTrendingAnimeResponse } from "@/lib/fetchAnimeTypes";
 
 const Anime = () => {
   const { data, error, fetchNextPage, hasNextPage, isFetching } =
@@ -16,14 +15,11 @@ const Anime = () => {
           ? lastPage.pageInfo.currentPage + 1
           : undefined,
     });
-  const [animes, setAnimes] = useState<fetchTrendingAnimeResponse["media"][]>();
 
-  useEffect(() => {
-    if (!data) return;
-    const settingAnimes = () =>
-      setAnimes(data.pages.flatMap((page) => page.media));
-    settingAnimes();
-  }, [data]);
+  const animes = useMemo(
+    () => data?.pages.flatMap((p) => p.media) ?? [],
+    [data],
+  );
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
