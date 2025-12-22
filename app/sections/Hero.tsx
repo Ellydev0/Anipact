@@ -107,7 +107,7 @@ const Hero = () => {
           <Skeleton className="w-[60%] h-[90px]" />
         ) : (
           <Tooltip>
-            <div className="font-xirod text-left text-[1.6rem] flex flex-wrap z-1 lg:text-[2.6rem] lg:flex-row">
+            <div className="font-xirod text-left items-start text-[1.6rem] z-1 lg:flex lg:text-[2.6rem] lg:flex-row">
               <TooltipTrigger className="">
                 {truncateText(
                   data?.[index]?.title?.english ||
@@ -116,16 +116,19 @@ const Hero = () => {
                   17,
                 )}
               </TooltipTrigger>
-              {data && (
-                <div className="hover:bg-muted/40 cursor-pointer w-fit h-fit backdrop-blur-md rounded-full transition-colors p-1.5">
-                  <ExternalLink size={30} />
-                </div>
-              )}{" "}
-              {data && index === 0 && (
-                <div className="cursor-default text-[.6rem] ml-4 bg-accent/25 backdrop-blur-md border border-accent rounded-full py-1.5 px-3 h-fit">
-                  most popular
-                </div>
-              )}
+
+              <div className="flex items-center">
+                {data && (
+                  <div className="hover:bg-muted/40 cursor-pointer w-fit h-fit backdrop-blur-md rounded-full transition-colors p-1.5">
+                    <ExternalLink size={30} />
+                  </div>
+                )}{" "}
+                {data && index === 0 && (
+                  <div className="cursor-default text-[.6rem] ml-4 bg-accent/25 backdrop-blur-md border border-accent rounded-full py-1.5 px-3 h-fit">
+                    most popular
+                  </div>
+                )}
+              </div>
             </div>
             <TooltipContent>
               <p>
@@ -173,13 +176,13 @@ const Hero = () => {
         {isLoading ? (
           <Skeleton className="w-[80%] h-[35px]" />
         ) : (
-          <p className="text-[1rem] mb-7">
+          <p className="text-[1rem] w-full lg:w-[70%] mb-7">
             {truncateText(
               stripHtml(
                 data?.[index]?.description ||
                   "Join millions staying in sync with trending anime and the latest news — all under one pact.",
               ),
-              200,
+              150,
             )}
           </p>
         )}

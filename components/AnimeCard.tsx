@@ -43,9 +43,9 @@ const AnimeCard = memo(function AnimeCard({
   return (
     <>
       <Card
-        className="md:w-[40%] lg:w-[20%] md:gap-4
+        className=" md:gap-4
       p-2 hover:border-accent/40 transition-colors border gap-0
-      border-transparent  w-[140px]"
+      border-transparent"
       >
         <CardHeader className="p-0">
           <div className="">
