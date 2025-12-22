@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import type { fetchTrendingAnimeResponse } from "@/lib/fetchAnimeTypes";
 import { Star, Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import {
@@ -11,12 +11,16 @@ import {
 import Image from "next/image";
 import { truncateText } from "@/lib/truncateText";
 import { Skeleton } from "./ui/skeleton";
+
 interface AnimeCardProps {
   anime: fetchTrendingAnimeResponse["media"];
   isFetching: boolean;
 }
 
-const AnimeCard: React.FC<AnimeCardProps> = ({ anime, isFetching }) => {
+const AnimeCard = memo(function AnimeCard({
+  anime,
+  isFetching,
+}: AnimeCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [imageSrc, setImageSrc] = useState<string>("/img/default.png");
@@ -41,7 +45,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, isFetching }) => {
       <Card
         className="md:w-[40%] lg:w-[20%] md:gap-4
       p-2 hover:border-accent/40 transition-colors border gap-0
-      border-transparent  w-[150px]"
+      border-transparent  w-[140px]"
       >
         <CardHeader className="p-0">
           <div className="">
@@ -155,7 +159,9 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, isFetching }) => {
         <CardContent className="p-0 text-left text-muted text-[1rem]">
           <div
             className="text-[.6rem] gap-1 px-1 flex justify-between items-center"
-            style={{ flexWrap: `${isFetching ? "nowrap" : "wrap"}` }}
+            style={{
+              flexWrap: `${isFetching ? "nowrap" : "wrap"}`,
+            }}
           >
             {isFetching ? (
               <Skeleton className="h-4 w-full" />
@@ -182,6 +188,6 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, isFetching }) => {
       </Card>
     </>
   );
-};
+});
 
 export default AnimeCard;
