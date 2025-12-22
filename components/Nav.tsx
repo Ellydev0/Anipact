@@ -1,11 +1,31 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Searchbar from "./ui/searchbar";
 import { Dropdown } from "./ui/dropdown";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showBg, setShowBg] = useState(false);
+
+  useEffect(() => {
+    const showingBg = () => {
+      if (window.scrollY > 100) {
+        setShowBg(true);
+      } else {
+        setShowBg(false);
+      }
+    };
+    window.addEventListener("scroll", showingBg);
+    return () => {
+      window.removeEventListener("scroll", showingBg);
+    };
+  }, []);
   return (
-    <nav className=" z-2 absolute top-0 py-4 px-6 flex gap-7 justify-between items-center w-full text-[1.2rem]">
+    <nav
+      className={`  ${showBg ? "bg-background/80 backdrop-blur-sm" : ""}
+      fixed z-100  top-0 py-3 px-5 flex gap-7 justify-between items-center w-full text-[1.2rem] transition-all duration-300 ease-in-out`}
+    >
       <div className="flex items-center gap-8">
         <div>
           <button
