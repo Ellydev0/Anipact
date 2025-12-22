@@ -1,20 +1,23 @@
 "use client";
 import AnimeCard from "@/components/AnimeCard";
 import { useEffect, useRef, useMemo, useState } from "react";
-import { fetchTrendingAnime } from "@/lib/fetchAnime";
+import { fetchPopularAnime, fetchTrendingAnime } from "@/lib/fetchAnime";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { CornerUpRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 const Anime = () => {
-  const [animeType, setAnimeType] = useState("trending");
+  const [animeType, setAnimeType] = useState<"trending" | "popular">(
+    "trending",
+  );
   const animeTypeRef = useRef<HTMLDivElement>(null);
 
-  const { data, error, fetchNextPage, hasNextPage, isFetching } =
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["trending-anime"],
-      queryFn: fetchTrendingAnime,
+      queryKey: ["anime", animeType],
+      queryFn:
+        animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
       initialPageParam: 1,
       getNextPageParam: (lastPage) =>
         lastPage.pageInfo.hasNextPage
@@ -104,7 +107,7 @@ const Anime = () => {
 
       <div className="flex flex-wrap items-start justify-between gap-10 lg:gap-15">
         {animes?.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} isFetching={isFetching} />
+          <AnimeCard anime={anime} key={anime.id} isFetching={!anime} />
         ))}
       </div>
       {error && (
