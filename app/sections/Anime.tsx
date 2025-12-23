@@ -35,7 +35,9 @@ const Anime = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) fetchNextPage();
+        if (entry.isIntersecting) {
+          setTimeout(() => fetchNextPage(), 500);
+        }
       },
       { rootMargin: "200px" },
     );
@@ -75,6 +77,12 @@ const Anime = () => {
             ))}
           </div>{" "}
           <span>anime 🔥</span>
+          <div className="text-sm text-muted">
+            Source:{" "}
+            <a href="https://anilist.co/" className="underline">
+              Anilist
+            </a>
+          </div>
         </div>
 
         <button
@@ -103,7 +111,7 @@ const Anime = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
         {animes?.map((anime) => (
           <AnimeCard anime={anime} key={anime.id} isFetching={!anime} />
         ))}

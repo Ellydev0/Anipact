@@ -1,7 +1,10 @@
 import type {
+  fetchAnimeDetailsResponseType,
   fetchInfiniteAnimeResponseType,
   fetchMostPopularAnimeResponseType,
+  fetchAnimeRecommendationsResponseType,
 } from "./fetchAnimeTypes";
+import { QueryFunctionContext } from "@tanstack/react-query";
 
 export async function fetchTrendingAnime({
   pageParam = 1,
@@ -215,4 +218,144 @@ export async function fetchMostPopularAnime(): Promise<
     console.log(e);
     throw new Error("Failed to fetch the most popular anime");
   }
+}
+
+export async function fetchAnimeDetails(
+  mediaId: number,
+): Promise<fetchAnimeDetailsResponseType> {
+  const query = `query Media($type: MediaType, $isAdult: Boolean, $mediaId: Int) {
+    Media(type: $type, isAdult: $isAdult, id: $mediaId) {
+      id
+      title {
+        english
+        romaji
+      }
+      bannerImage
+      coverImage {
+        extraLarge
+        color
+      }
+      description
+      episodes
+      genres
+      season
+      seasonYear
+      status
+      startDate {
+        month
+        year
+      }
+      endDate {
+        month
+        year
+      }
+      countryOfOrigin
+      meanScore
+      nextAiringEpisode {
+        airingAt
+      }
+      characters {
+        nodes {
+          image {
+            large
+          }
+          name {
+            full
+          }
+        }
+      }
+      streamingEpisodes {
+        site
+        url
+        thumbnail
+        title
+      }
+      trailer {
+        id
+        site
+        thumbnail
+      }
+    }
+  }`;
+
+  const variables = {
+    type: "ANIME",
+    isAdult: false,
+    mediaId,
+  };
+
+  const res = await fetch("https://graphql.anilist.co", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+  const json = await res.json();
+  return json.data.Media;
+}
+
+export async function fetchAnimeRecommendations(
+  ctx: QueryFunctionContext<(string | number)[], number>,
+): Promise<fetchAnimeRecommendationsResponseType> {
+  const { pageParam = 1, queryKey } = ctx;
+  const [, mediaId] = queryKey as [string, number];
+
+  const query = `
+    query Media($mediaId: Int, $page: Int, $perPage: Int) {
+      Media(id: $mediaId, type: ANIME) {
+        recommendations(
+          sort: RATING_DESC
+          page: $page
+          perPage: $perPage
+        ) {
+          nodes {
+            mediaRecommendation {
+              id
+              episodes
+              genres
+              meanScore
+              season
+              seasonYear
+              status
+              title {
+                english
+                romaji
+              }
+              coverImage {
+                extraLarge
+              }
+            }
+          }
+          pageInfo {
+            currentPage
+            hasNextPage
+          }
+        }
+      }
+    }
+  `;
+
+  const res = await fetch("https://graphql.anilist.co", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables: {
+        mediaId,
+        page: pageParam,
+        perPage: 4,
+      },
+    }),
+  });
+
+  const json = await res.json();
+  return json.data.Media.recommendations;
 }

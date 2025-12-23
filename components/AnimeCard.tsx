@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { truncateText } from "@/lib/truncateText";
 import { Skeleton } from "./ui/skeleton";
+import Link from "next/link";
 
 interface AnimeCardProps {
   anime: fetchInfiniteAnimeResponseType["media"];
@@ -65,17 +66,19 @@ const AnimeCard = memo(function AnimeCard({
                 className="z-2 absolute bg-card/60 scale-80 rounded-md p-1.5 right-0 bottom-0 backdrop-blur-md md:scale-100 xl:p-2 md:bottom-2 md:right-2"
               />
               <div className="w-full relative">
-                <div className="w-full relative h-full pt-[150%] overflow-hidden rounded-md cursor-pointer ">
-                  <Image
-                    src={imageSrc}
-                    alt={
-                      anime.title?.english || anime.title?.romaji || "Default"
-                    }
-                    fill
-                    sizes="(max-width: 640px) 150px, (max-width: 1024px) 220px, 300px"
-                    className="object-cover"
-                  />
-                </div>
+                <Link href={`/anime/${anime.id}`}>
+                  <div className="w-full relative h-full pt-[150%] overflow-hidden rounded-md cursor-pointer ">
+                    <Image
+                      src={imageSrc}
+                      alt={
+                        anime.title?.english || anime.title?.romaji || "Default"
+                      }
+                      fill
+                      sizes="(max-width: 640px) 150px, (max-width: 1024px) 220px, 300px"
+                      className="object-cover"
+                    />
+                  </div>
+                </Link>
               </div>
             </div>
 
@@ -83,21 +86,23 @@ const AnimeCard = memo(function AnimeCard({
               className="mt-3 mb-2 text-[.8rem] xl:text-[1rem] active:text-muted-foreground cursor-pointer  transition-colors"
               title={anime.title?.english || anime.title?.romaji || ""}
             >
-              {isFetching ? (
-                <Skeleton className="h-4 w-[76%]" />
-              ) : (
-                <p className="flex">
-                  {isMobile
-                    ? truncateText(
-                        anime.title?.english || anime.title?.romaji || "",
-                        18,
-                      )
-                    : truncateText(
-                        anime.title?.english || anime.title?.romaji || "",
-                        36,
-                      )}
-                </p>
-              )}
+              <Link href={`/anime/${anime.id}`}>
+                {isFetching ? (
+                  <Skeleton className="h-4 w-[76%]" />
+                ) : (
+                  <p className="flex">
+                    {isMobile
+                      ? truncateText(
+                          anime.title?.english || anime.title?.romaji || "",
+                          18,
+                        )
+                      : truncateText(
+                          anime.title?.english || anime.title?.romaji || "",
+                          36,
+                        )}
+                  </p>
+                )}
+              </Link>
             </CardTitle>
           </div>
 
@@ -169,7 +174,7 @@ const AnimeCard = memo(function AnimeCard({
             {isFetching ? (
               <Skeleton className="h-4 w-full" />
             ) : (
-              <p>{anime.episodes} Episodes</p>
+              <p>{anime.episodes ? `${anime.episodes} Episodes` : "NULL"} </p>
             )}
             {isFetching ? (
               <Skeleton className="h-4 w-full" />
