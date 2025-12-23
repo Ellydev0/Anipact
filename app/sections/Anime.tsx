@@ -13,17 +13,15 @@ const Anime = () => {
   );
   const animeTypeRef = useRef<HTMLDivElement>(null);
 
-  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["anime", animeType],
-      queryFn:
-        animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) =>
-        lastPage.pageInfo.hasNextPage
-          ? lastPage.pageInfo.currentPage + 1
-          : undefined,
-    });
+  const { data, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["anime", animeType],
+    queryFn: animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.pageInfo.hasNextPage
+        ? lastPage.pageInfo.currentPage + 1
+        : undefined,
+  });
 
   const animes = useMemo(
     () => data?.pages.flatMap((p) => p.media) ?? [],

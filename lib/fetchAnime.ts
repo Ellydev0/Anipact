@@ -1,12 +1,11 @@
 import type {
-  fetchMostPopularAnimeResponse,
-  fetchPopularAnimeResponse,
-  fetchTrendingAnimeResponse,
+  fetchInfiniteAnimeResponseType,
+  fetchMostPopularAnimeResponseType,
 } from "./fetchAnimeTypes";
 
 export async function fetchTrendingAnime({
   pageParam = 1,
-}): Promise<fetchTrendingAnimeResponse> {
+}): Promise<fetchInfiniteAnimeResponseType> {
   const query = `
       query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort], $season: MediaSeason, $seasonYear: Int, $isAdult: Boolean) {
         Page(page: $page, perPage: $perPage) {
@@ -68,7 +67,7 @@ export async function fetchTrendingAnime({
 
 export async function fetchPopularAnime({
   pageParam = 1,
-}): Promise<fetchPopularAnimeResponse> {
+}): Promise<fetchInfiniteAnimeResponseType> {
   const query = `
       query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort], $season: MediaSeason, $seasonYear: Int, $isAdult: Boolean) {
         Page(page: $page, perPage: $perPage) {
@@ -141,7 +140,7 @@ export async function fetchPopularAnime({
 }
 
 export async function fetchMostPopularAnime(): Promise<
-  fetchMostPopularAnimeResponse[]
+  fetchMostPopularAnimeResponseType[]
 > {
   const query = `
     query PageInfo($page: Int, $perPage: Int, $type: MediaType, $sort: [MediaSort],$season: MediaSeason, $seasonYear: Int) {
