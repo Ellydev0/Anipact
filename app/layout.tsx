@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "Anipact - All of Anime Bound by One Pact",
   description:
     "Join millions staying in sync with trending anime and the latest news — all under one pact.",
+  applicationName: "Anipact",
+  keywords: ["anipact", "anime", "pact", "news"],
+  authors: [{ name: "Elliot Otoijagha", url: "https://github.com/Ellydev0" }],
 };
 
 export default function RootLayout({

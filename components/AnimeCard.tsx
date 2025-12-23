@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, memo } from "react";
-import type { fetchTrendingAnimeResponse } from "@/lib/fetchAnimeTypes";
+import type { fetchInfiniteAnimeResponseType } from "@/lib/fetchAnimeTypes";
 import { Star, Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Card,
@@ -13,7 +13,7 @@ import { truncateText } from "@/lib/truncateText";
 import { Skeleton } from "./ui/skeleton";
 
 interface AnimeCardProps {
-  anime: fetchTrendingAnimeResponse["media"];
+  anime: fetchInfiniteAnimeResponseType["media"];
   isFetching: boolean;
 }
 
@@ -65,9 +65,7 @@ const AnimeCard = memo(function AnimeCard({
                 className="z-2 absolute bg-card/60 scale-80 rounded-md p-1.5 right-0 bottom-0 backdrop-blur-md md:scale-100 xl:p-2 md:bottom-2 md:right-2"
               />
               <div className="w-full relative">
-                <div className="w-full relative h-full pt-[150%] overflow-hidden rounded-md ">
-                  {" "}
-                  {/* 3/2 => 150% padding-top for 2:3 poster */}
+                <div className="w-full relative h-full pt-[150%] overflow-hidden rounded-md cursor-pointer ">
                   <Image
                     src={imageSrc}
                     alt={
@@ -82,7 +80,7 @@ const AnimeCard = memo(function AnimeCard({
             </div>
 
             <CardTitle
-              className="mt-3 mb-2 text-[.8rem] xl:text-[1rem] active:text-muted-foreground cursor-pointer transition-colors"
+              className="mt-3 mb-2 text-[.8rem] xl:text-[1rem] active:text-muted-foreground cursor-pointer  transition-colors"
               title={anime.title?.english || anime.title?.romaji || ""}
             >
               {isFetching ? (

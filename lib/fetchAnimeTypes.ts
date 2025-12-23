@@ -1,30 +1,4 @@
-export type fetchPopularAnimeResponse = {
-  pageInfo: {
-    currentPage: number;
-    hasNextPage: boolean;
-  };
-  media: {
-    id: number;
-    genres: string[];
-    meanScore: number;
-    description: string;
-    seasonYear: number;
-    season: string;
-    episodes: number;
-    status: string;
-    title: {
-      english: string | null;
-      romaji: string | null;
-    };
-    coverImage: {
-      extraLarge: string;
-    };
-  }; //this media object is an array but because of its dependencies it is not
-  //specified as an array, to use it as an array add "[]" to use it as an array.
-  // Thanks
-};
-
-export type fetchMostPopularAnimeResponse = {
+export interface fetchMostPopularAnimeResponseType {
   id: number;
   genres: string[];
   meanScore: number;
@@ -41,9 +15,9 @@ export type fetchMostPopularAnimeResponse = {
     extraLarge: string;
     color: string;
   };
-};
+}
 
-export interface fetchTrendingAnimeResponse {
+export interface fetchInfiniteAnimeResponseType {
   pageInfo: {
     currentPage: number;
     hasNextPage: boolean;

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Searchbar from "./ui/searchbar";
 import { Dropdown } from "./ui/dropdown";
 
-const Nav = () => {
+const Nav = ({ active = 1 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showBg, setShowBg] = useState(false);
 
@@ -48,7 +48,7 @@ const Nav = () => {
               />
             ))}
           </button>
-          <Dropdown active={1} openup={isOpen} />
+          <Dropdown active={active} openup={isOpen} />
         </div>
 
         <h1 className="font-xirod hidden lg:block">Anipact</h1>
