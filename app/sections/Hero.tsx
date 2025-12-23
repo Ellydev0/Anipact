@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 const Hero = () => {
   const { data, isLoading } = useQuery({
@@ -119,9 +120,12 @@ const Hero = () => {
 
               <div className="flex items-center">
                 {data && (
-                  <div className="hover:bg-muted/40 cursor-pointer w-fit h-fit backdrop-blur-md rounded-full transition-colors p-1.5">
+                  <Link
+                    href={`anime/${data[index].id}`}
+                    className="hover:bg-muted/40 cursor-pointer w-fit h-fit backdrop-blur-md rounded-full transition-colors p-1.5"
+                  >
                     <ExternalLink size={30} />
-                  </div>
+                  </Link>
                 )}{" "}
                 {data && index === 0 && (
                   <div className="cursor-default text-[.6rem] ml-4 bg-accent/25 backdrop-blur-md border border-accent rounded-full py-1.5 px-3 h-fit">
