@@ -1,16 +1,17 @@
 "use client";
 import AnimeCard from "@/components/AnimeCard";
-import { useEffect, useRef, useMemo, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import Notification from "@/components/Notifications";
 import { fetchPopularAnime, fetchTrendingAnime } from "@/lib/fetchAnime";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { CornerUpRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useAnimeTypeStore } from "@/store/AnimeTypeStore";
+import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
 
 const Anime = () => {
-  const [animeType, setAnimeType] = useState<"trending" | "popular">(
-    "trending",
-  );
+  const { animeType, setAnimeType } = useAnimeTypeStore();
   const animeTypeRef = useRef<HTMLDivElement>(null);
 
   const { data, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
@@ -28,6 +29,8 @@ const Anime = () => {
     [data],
   );
 
+  const { message, setMessage } = useAnimeNotificationStore();
+
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,7 +39,11 @@ const Anime = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => fetchNextPage(), 500);
+          setTimeout(async () => {
+            setMessage("Loading Anime ...");
+            await fetchNextPage();
+            setMessage("Done Loading Anime");
+          }, 500);
         }
       },
       { rootMargin: "200px" },
@@ -44,7 +51,10 @@ const Anime = () => {
 
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage]);
+  }, [fetchNextPage, hasNextPage, setMessage]);
+
+  gsap.registerPlugin(useGSAP);
+
   useGSAP(
     () => {
       gsap.fromTo(
@@ -65,6 +75,7 @@ const Anime = () => {
       scope: animeTypeRef,
     },
   );
+
   return (
     <div className="p-4 lg:px-8 mt-10">
       <div className="flex items-start justify-between flex-col gap-3 lg:flex-row lg:gap-0">
@@ -116,6 +127,9 @@ const Anime = () => {
           <AnimeCard anime={anime} key={anime.id} isFetching={!anime} />
         ))}
       </div>
+
+      <Notification message={message} />
+
       {error && (
         <p className="text-red-500 text-[1rem] text-center">
           An error has occurred

@@ -12,6 +12,8 @@ import Image from "next/image";
 import { truncateText } from "@/lib/truncateText";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
+import { useWatchlistStore } from "@/store/WatchlistStore";
+import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
 
 interface AnimeCardProps {
   anime: fetchInfiniteAnimeResponseType["media"];
@@ -25,6 +27,20 @@ const AnimeCard = memo(function AnimeCard({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [imageSrc, setImageSrc] = useState<string>("/img/default.png");
+  const { watchlist, addToWatchlist, removeFromWatchlist } =
+    useWatchlistStore();
+  const { setMessage } = useAnimeNotificationStore();
+
+  const toggleWatchList = () => {
+    if (watchlist.includes(anime.id)) {
+      removeFromWatchlist(anime.id);
+      setMessage(`Removed from watchlist`);
+    } else {
+      addToWatchlist(anime.id);
+      setMessage(`Added to watchlist`);
+    }
+  };
+
   useEffect(() => {
     //is mobile
     const show = () => {
@@ -60,11 +76,17 @@ const AnimeCard = memo(function AnimeCard({
                 />
                 <p> {anime.meanScore}</p>
               </div>
+
               <Bookmark
                 size={37}
                 stroke="var(--accent)"
-                className="z-2 absolute bg-card/60 scale-80 rounded-md p-1.5 right-0 bottom-0 backdrop-blur-md md:scale-100 xl:p-2 md:bottom-2 md:right-2"
+                onClick={toggleWatchList}
+                fill={watchlist.includes(anime.id) ? "var(--accent)" : "none"}
+                className="z-2 absolute bg-card/60 scale-80 rounded-md p-1.5 right-0
+                bottom-0 backdrop-blur-md md:scale-100 xl:p-2 md:bottom-2 md:right-2
+                hover:bg-card/80 active:bg-card"
               />
+
               <div className="w-full relative">
                 <Link href={`/anime/${anime.id}`}>
                   <div className="w-full relative h-full pt-[150%] overflow-hidden rounded-md cursor-pointer ">
