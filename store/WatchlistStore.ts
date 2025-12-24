@@ -5,6 +5,8 @@ type WatchlistStore = {
   watchlist: number[];
   addToWatchlist: (anime: number) => void;
   removeFromWatchlist: (id: number) => void;
+  hasHydrated: boolean;
+  setHydrated: (hydrated: boolean) => void;
 };
 
 export const useWatchlistStore = create<WatchlistStore>()(
@@ -22,10 +24,15 @@ export const useWatchlistStore = create<WatchlistStore>()(
         set((state) => ({
           watchlist: state.watchlist.filter((animeid) => animeid !== id),
         })),
+      hasHydrated: false,
+      setHydrated: (hydrated: boolean) => set({ hasHydrated: hydrated }),
     }),
     {
       name: "watchlist-store",
       partialize: (state) => ({ watchlist: state.watchlist }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true);
+      },
     },
   ),
 );

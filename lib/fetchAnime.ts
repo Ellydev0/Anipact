@@ -3,6 +3,7 @@ import type {
   fetchInfiniteAnimeResponseType,
   fetchMostPopularAnimeResponseType,
   fetchAnimeRecommendationsResponseType,
+  fetchAnimeWatchlistResponseType,
 } from "./fetchAnimeTypes";
 import { QueryFunctionContext } from "@tanstack/react-query";
 
@@ -359,3 +360,49 @@ export async function fetchAnimeRecommendations(
   const json = await res.json();
   return json.data.Media.recommendations;
 }
+
+export const fetchAnimeWatchlist = async (
+  ids: number[],
+): Promise<fetchAnimeWatchlistResponseType[]> => {
+  const query = `
+    query ($ids: [Int]) {
+      Page(page: 1, perPage: 20) {
+        media(id_in: $ids, type: ANIME) {
+          id
+          genres
+          meanScore
+          description
+          seasonYear
+          season
+          episodes
+          status
+          title {
+            english
+            romaji
+          }
+          coverImage {
+            extraLarge
+          }
+        }
+      }
+    }
+
+  `;
+
+  const res = await fetch("https://graphql.anilist.co", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables: {
+        ids,
+      },
+    }),
+  });
+
+  const json = await res.json();
+  return json.data.Page.media;
+};

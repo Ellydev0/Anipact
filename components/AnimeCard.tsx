@@ -36,6 +36,10 @@ const AnimeCard = memo(function AnimeCard({
       removeFromWatchlist(anime.id);
       setMessage(`Removed from watchlist`);
     } else {
+      if (watchlist.length >= 20) {
+        setMessage(`You have reached the maximum watchlist limit (20)`);
+        return;
+      }
       addToWatchlist(anime.id);
       setMessage(`Added to watchlist`);
     }

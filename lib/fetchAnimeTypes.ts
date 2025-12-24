@@ -120,3 +120,21 @@ export interface fetchAnimeRecommendationsResponseType {
     };
   }[];
 }
+
+export interface fetchAnimeWatchlistResponseType {
+  id: number;
+  genres: string[];
+  meanScore: number;
+  description: string;
+  seasonYear: number;
+  season: string;
+  episodes: number;
+  status: string;
+  title: {
+    english: string | null;
+    romaji: string | null;
+  };
+  coverImage: {
+    extraLarge: string;
+  };
+}
