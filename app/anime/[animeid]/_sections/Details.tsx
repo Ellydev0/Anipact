@@ -151,6 +151,7 @@ const Details = ({
                 />
               </div>
               <button
+                aria-label="Show more detail"
                 onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
                 className="bg-background hover:bg-muted-foreground/30 transition-colors text-foreground py-1 px-4 rounded border text-[.7rem] border-muted mt-2"
               >
@@ -194,6 +195,7 @@ const Details = ({
               ))}
             </div>
             <button
+              aria-label="Show more characters"
               onClick={() => setIsCharacterExpanded(!isCharacterExpanded)}
               className="bg-background w-full hover:bg-muted-foreground/30 transition-colors text-foreground py-1 px-4 rounded border text-[.7rem] border-muted"
             >
@@ -223,6 +225,7 @@ const Details = ({
               ))}
             </div>
             <button
+              aria-label="Show more streaming episodes"
               onClick={() => setIsEpisodeExpanded(!isEpisodeExpanded)}
               className="bg-background w-full hover:bg-muted-foreground/30 transition-colors text-foreground py-1 px-4 rounded border text-[.7rem] border-muted"
             >

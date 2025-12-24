@@ -3,7 +3,11 @@
 import Details from "./_sections/Details";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAnimeDetails } from "@/lib/fetchAnime";
-import Recommendations from "./_sections/Recommendations";
+import dynamic from "next/dynamic";
+
+const Recommendations = dynamic(() => import("./_sections/Recommendations"), {
+  ssr: false,
+});
 
 const AnimeDetailsClientPage = ({ animeid }: { animeid: string }) => {
   const { data, isLoading } = useQuery({

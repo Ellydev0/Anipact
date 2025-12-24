@@ -138,6 +138,7 @@ const AnimeCard = memo(function AnimeCard({
                   <div className="bg-linear-to-r from-card via-transparent to-card absolute w-full h-full z-1 "></div>
                   {/* Left chevron */}
                   <button
+                    aria-label="Next"
                     onClick={() =>
                       containerRef.current?.scrollBy({
                         left: -120,
@@ -166,6 +167,7 @@ const AnimeCard = memo(function AnimeCard({
 
                   {/* Right chevron */}
                   <button
+                    aria-label="Prev"
                     onClick={() =>
                       containerRef.current?.scrollBy({
                         left: 120,
