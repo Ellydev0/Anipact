@@ -44,7 +44,7 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
   }, [fetchNextPage, hasNextPage]);
 
   return (
-    <div className="p-4">
+    <div className="pb-2">
       <h1 className="text-2xl font-xirod mb-4 mt-15">Recommendations</h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
         {animes.map((anime, i) => (

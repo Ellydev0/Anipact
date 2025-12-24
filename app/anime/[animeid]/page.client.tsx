@@ -12,7 +12,7 @@ const AnimeDetailsClientPage = ({ animeid }: { animeid: string }) => {
   });
 
   return (
-    <div className="min-w-screen px-10 p-5 py-3 h-screen relative">
+    <div className="min-w-screen px-5 lg:px-10 p-5 py-3 h-screen relative">
       <Details data={data} isLoading={isLoading} />
       <Recommendations mediaId={Number(animeid)} />
     </div>
