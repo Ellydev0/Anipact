@@ -3,6 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import { useEffect, useState } from "react";
 import gsap from "gsap";
+import Link from "next/link";
 
 export const Dropdown = ({
   active,
@@ -107,12 +108,14 @@ export const Dropdown = ({
           {active === 3 && (
             <div className="bg-accent/20 w-full h-full absolute rounded-md border border-accent" />
           )}
-          <div className="p-4 z-1 relative">
-            <h1 className="text-[1.1rem] font-bold">Your Watchlist</h1>
-            <p className="text-[.7rem] mt-1 text-muted">
-              Manage your anime watchlist and track your watch progress.
-            </p>
-          </div>
+          <Link href="/watchlist">
+            <div className="p-4 z-1 relative">
+              <h1 className="text-[1.1rem] font-bold">Your Watchlist</h1>
+              <p className="text-[.7rem] mt-1 text-muted">
+                Manage your anime watchlist and track your watch progress.
+              </p>
+            </div>
+          </Link>
         </li>
       </ul>
     </div>

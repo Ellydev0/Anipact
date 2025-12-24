@@ -2,12 +2,13 @@
 import Image from "next/image";
 import { fetchAnimeDetailsResponseType } from "@/lib/fetchAnimeTypes";
 import { truncateText } from "@/lib/truncateText";
-import { Star } from "lucide-react";
+import { Info, Star } from "lucide-react";
 import countryList from "country-list";
 import { useState } from "react";
 import Episode from "@/app/anime/[animeid]/_sections/Episode";
 import TrailerPlayer from "./Trailer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useWatchlistStore } from "@/store/WatchlistStore";
 
 const Details = ({
   data,
@@ -19,6 +20,9 @@ const Details = ({
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [isCharacterExpanded, setIsCharacterExpanded] = useState(false);
   const [isEpisodeExpanded, setIsEpisodeExpanded] = useState(false);
+
+  const { watchlist } = useWatchlistStore();
+
   function getFlagUrl(countryCode: string) {
     return `https://flagcdn.com/48x36/${countryCode.toLowerCase()}.png`;
   }
@@ -43,17 +47,22 @@ const Details = ({
       {/* Poster and title */}
       <div className="flex flex-col lg:flex-row mt-20 w-full gap-0 lg:gap-24">
         {/* Poster */}
-        <div className="shrink-0 w-[200px]">
+        <div className="shrink-0 w-50">
           {isLoading ? (
-            <Skeleton className="w-[200px] h-[300px]" />
+            <Skeleton className="w-50 h-75" />
           ) : (
             <Image
               src={data?.coverImage.extraLarge || "/img/default.png"}
               alt="cover image"
               width={200}
-              height={300} // REAL height
+              height={400} // REAL height
               className="rounded-sm object-cover"
             />
+          )}
+          {watchlist.includes(data?.id || -1) && (
+            <p className="text-sm text-muted flex items-center mt-5 gap-2">
+              <Info size={16} /> Added to Watch list
+            </p>
           )}
         </div>
 
@@ -61,7 +70,7 @@ const Details = ({
         <div className="flex-1 flex flex-col gap-4 mt-10 lg:mt-40">
           {/* Title */}
           {isLoading ? (
-            <Skeleton className="w-[70%] h-[60px]" />
+            <Skeleton className="w-[70%] h-15" />
           ) : (
             <>
               <h1
@@ -84,7 +93,7 @@ const Details = ({
 
           {/* Metadata */}
           {isLoading ? (
-            <Skeleton className="w-[80%] h-[60px]" />
+            <Skeleton className="w-[80%] h-15" />
           ) : (
             <>
               <div className="flex flex-wrap gap-2 text-[.8rem] text-muted-foreground items-center">
