@@ -29,6 +29,7 @@ const Nav = ({ active = 1 }) => {
       <div className="flex items-center gap-8">
         <div>
           <button
+            aria-label="Open nav"
             onClick={() => setIsOpen(!isOpen)}
             className="relative w-9 h-5 gap-1.5 flex flex-col items-start"
           >

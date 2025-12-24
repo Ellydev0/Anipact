@@ -32,6 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preconnect"
+          href="https://graphql.anilist.co"
+          crossOrigin=""
+        />
+      </head>
       <body className={`${xirod.variable} ${inter.variable} antialiased`}>
         <QueryProvider>{children}</QueryProvider>
         <SpeedInsights />

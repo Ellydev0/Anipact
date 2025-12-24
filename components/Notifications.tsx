@@ -11,6 +11,7 @@ const Notification: React.FC<NotificationProps> = ({ message }) => {
 
   useGSAP(
     () => {
+      if (message === "") return;
       gsap.fromTo(
         ".notify",
         { opacity: 0, y: 20 },

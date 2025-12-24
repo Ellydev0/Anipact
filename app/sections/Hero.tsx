@@ -55,7 +55,11 @@ const Hero = () => {
   }, [data, index]);
 
   return (
-    <div className={clsx(styles.hero, "relative lg:h-[84vh] h-[90vh]")}>
+    <div
+      className={clsx(
+        "relative lg:h-[84vh] h-[90vh] bg-cover bg-center bg-no-repeat w-full",
+      )}
+    >
       <Nav />
 
       <div
@@ -71,6 +75,7 @@ const Hero = () => {
               src={image}
               alt=""
               fill
+              fetchPriority={i === 0 ? "high" : "auto"}
               priority={i === 0}
               className="object-cover"
             />
@@ -105,7 +110,7 @@ const Hero = () => {
         )}
       >
         {isLoading ? (
-          <Skeleton className="w-[60%] h-[90px]" />
+          <Skeleton className="w-[60%] h-22.5" />
         ) : (
           <Tooltip>
             <div className="font-xirod text-left items-start text-[1.6rem] z-1 lg:flex lg:text-[2.6rem] lg:flex-row">
@@ -145,7 +150,7 @@ const Hero = () => {
         )}
 
         {isLoading ? (
-          <Skeleton className="w-[34%] rounded-full h-[25px]" />
+          <Skeleton className="w-[34%] rounded-full h-6.25" />
         ) : (
           <div className="flex flex-wrap text-[.9rem] text-muted">
             <div className="rating__count  flex items-center">
@@ -176,9 +181,8 @@ const Hero = () => {
             </div>
           </div>
         )}
-
         {isLoading ? (
-          <Skeleton className="w-[80%] h-[35px]" />
+          <Skeleton className="w-[80%] h-8.75" />
         ) : (
           <p className="text-[1rem] w-full lg:w-[70%] mb-7">
             {truncateText(

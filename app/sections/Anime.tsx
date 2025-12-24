@@ -1,5 +1,5 @@
 "use client";
-import AnimeCard from "@/components/AnimeCard";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useMemo } from "react";
 import Notification from "@/components/Notifications";
 import { fetchPopularAnime, fetchTrendingAnime } from "@/lib/fetchAnime";
@@ -9,6 +9,10 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useAnimeTypeStore } from "@/store/AnimeTypeStore";
 import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
+
+const AnimeCard = dynamic(() => import("@/components/AnimeCard"), {
+  ssr: false,
+});
 
 const Anime = () => {
   const { animeType, setAnimeType } = useAnimeTypeStore();
@@ -97,6 +101,7 @@ const Anime = () => {
         </div>
 
         <button
+          aria-label="Switch to popular anime"
           className="mb-14 flex text-[.8rem] gap-1 items-center
           bg-accent/25 border border-accent rounded-md px-2 py-1
           hover:bg-accent/30 active:bg-accent/50 transition-colors lg:mb-0"
@@ -109,6 +114,7 @@ const Anime = () => {
           Switch to Popular Anime
         </button>
         <button
+          aria-label="Switch to trending anime"
           className="mb-14 text-[.8rem] gap-1 items-center
           bg-accent/25 border border-accent rounded-md px-2 py-1
           hover:bg-accent/30 active:bg-accent/50 transition-colors lg:mb-0"
