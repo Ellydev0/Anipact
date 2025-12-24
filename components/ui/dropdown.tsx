@@ -11,7 +11,6 @@ export const Dropdown = ({
   active: number;
   openup: boolean;
 }) => {
-  // GSDevTools.create();
   gsap.registerPlugin(useGSAP);
   const [open, setOpen] = useState(false);
   useEffect(() => setOpen(openup), [openup]);
