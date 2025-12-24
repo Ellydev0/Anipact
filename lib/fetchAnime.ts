@@ -48,8 +48,6 @@ export async function fetchTrendingAnime({
   };
 
   try {
-    console.log(pageParam);
-
     const res = await fetch("https://graphql.anilist.co", {
       method: "POST",
       headers: {

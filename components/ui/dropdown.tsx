@@ -78,13 +78,15 @@ export const Dropdown = ({
           {active === 1 && (
             <div className="bg-accent/20 w-full h-full absolute rounded-md border border-accent" />
           )}
-          <div className="p-4 z-1 relative">
-            <h1 className="text-[1.1rem] font-bold">Anime List</h1>
-            <p className="text-[.7rem] mt-1 text-muted">
-              Explore trending and popular anime and watch on your favourite
-              streaming platform.
-            </p>
-          </div>
+          <Link href="/">
+            <div className="p-4 z-1 relative">
+              <h1 className="text-[1.1rem] font-bold">Anime List</h1>
+              <p className="text-[.7rem] mt-1 text-muted">
+                Explore trending and popular anime and watch on your favourite
+                streaming platform.
+              </p>
+            </div>
+          </Link>
         </li>
 
         <li

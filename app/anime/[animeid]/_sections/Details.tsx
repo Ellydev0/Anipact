@@ -183,7 +183,7 @@ const Details = ({
         ) : (
           <>
             <div
-              className={`relative grid grid-cols-4 lg:grid-cols-6 gap-y-4 ${
+              className={`relative grid md:grid-cols-4 lg:grid-cols-6 gap-y-4 ${
                 isCharacterExpanded ? "max-h-[2000px]" : "max-h-50 lg:max-h-100"
               } overflow-hidden transition-all duration-600 ease-in-out`}
             >

@@ -5,6 +5,7 @@ import { fetchAnimeWatchlist } from "@/lib/fetchAnime";
 import { useWatchlistStore } from "@/store/WatchlistStore";
 import AnimeCard from "@/components/AnimeCard";
 import { useEffect, useState } from "react";
+import Nav from "@/components/Nav";
 
 const WatchlistPage: React.FC = () => {
   const { watchlist, hasHydrated } = useWatchlistStore();
@@ -24,8 +25,9 @@ const WatchlistPage: React.FC = () => {
     enabled: ready && watchlist.length > 0, // only fetch when hydrated and not empty
   });
   return (
-    <div className="p-5">
-      <h1 className="text-[3rem] font-xirod mt-10 ml-6 mb-20">
+    <div className="p-5 relative w-full">
+      <Nav active={3} />
+      <h1 className="text-[2rem] xl:text-[3rem] font-xirod mt-21 xl:ml-6 mb-20">
         Your Watchlist
       </h1>
 
