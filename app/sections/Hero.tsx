@@ -4,7 +4,6 @@ import { fetchMostPopularAnime } from "@/lib/fetchAnime";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import styles from "./styles/Hero.module.css";
 import { useEffect, useState } from "react";
 import { Star, ExternalLink, ChevronLeft } from "lucide-react";
 import { truncateText, stripHtml } from "@/lib/truncateText";
@@ -24,7 +23,9 @@ const Hero = () => {
     queryFn: fetchMostPopularAnime,
   });
 
-  const [trendingAnimeImage, setTrendingAnimeImage] = useState<string[]>([]);
+  const [mostPopularAnimeImage, setMostPopularAnimeImage] = useState<string[]>(
+    [],
+  );
 
   const [index, setIndex] = useState(0);
 
@@ -32,19 +33,23 @@ const Hero = () => {
     if (!data) return;
 
     const updateImage = () => {
-      const image =
-        window.innerWidth < 1024
-          ? data[index]?.coverImage.extraLarge
-          : data[index]?.bannerImage || data[index]?.coverImage.extraLarge;
-
-      setTrendingAnimeImage((prev) => [...prev, image]);
+      const images: string[] = [];
+      data.map((datum) => {
+        const image =
+          window.innerWidth < 1024
+            ? datum?.coverImage.extraLarge
+            : datum?.bannerImage || datum?.coverImage.extraLarge;
+        images.push(image);
+      });
+      setMostPopularAnimeImage([...images]);
     };
 
     updateImage();
+
     window.addEventListener("resize", updateImage);
 
     return () => window.removeEventListener("resize", updateImage);
-  }, [data, index]);
+  }, [data]);
 
   useEffect(() => {
     if (!data) return;
@@ -55,18 +60,14 @@ const Hero = () => {
   }, [data, index]);
 
   return (
-    <div
-      className={clsx(
-        "relative lg:h-[84vh] h-[90vh] bg-cover bg-center bg-no-repeat w-full",
-      )}
-    >
+    <div className={clsx("relative w-full h-[90vh] overflow-hidden")}>
       <Nav />
 
       <div
         className="flex h-full absolute top-0 inset-0 -z-1 transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
-        {trendingAnimeImage.map((image, i) => (
+        {mostPopularAnimeImage.map((image, i) => (
           <div
             key={i}
             className="relative min-w-full h-full bg-[url(/img/default.png)] bg-center"

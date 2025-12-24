@@ -24,7 +24,7 @@ const Nav = ({ active = 1 }) => {
   return (
     <nav
       className={`  ${showBg ? "bg-background/80 backdrop-blur-sm" : ""}
-      fixed z-100  top-0 py-3 px-5 flex gap-7 justify-between items-center w-full text-[1.2rem] transition-all duration-300 ease-in-out`}
+      fixed z-100 top-0 left-0 py-3 px-5 flex gap-7 justify-between items-center w-full text-[1.2rem] transition-all duration-300 ease-in-out`}
     >
       <div className="flex items-center gap-8">
         <div>
