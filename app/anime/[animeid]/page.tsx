@@ -1,23 +1,56 @@
-"use client";
-
-import Details from "./_sections/Details";
-import { useQuery } from "@tanstack/react-query";
+import { Metadata } from "next";
+import AnimeDetailsClientPage from "./page.client";
 import { fetchAnimeDetails } from "@/lib/fetchAnime";
-import { useParams } from "next/navigation";
-import Recommendations from "./_sections/Recommendations";
 
-const AnimeDetailsPage = () => {
-  const params = useParams();
-  const { data, isLoading } = useQuery({
-    queryKey: ["anime", params.animeid],
-    queryFn: () => fetchAnimeDetails(Number(params.animeid)),
-  });
-  return (
-    <div className="min-w-screen px-10 p-5 py-3 h-screen relative">
-      <Details data={data} isLoading={isLoading} />
-      <Recommendations mediaId={Number(params.animeid)} />
-    </div>
-  );
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ animeid: string }>;
+}): Promise<Metadata> {
+  const animeId = Number(await params.then((params) => params.animeid));
+  // Guard: invalid route param
+  if (Number.isNaN(animeId)) {
+    return {
+      title: "Anime Details | Anipact",
+      description: "Anime details on Anipact",
+    };
+  }
+
+  const data = await fetchAnimeDetails(animeId);
+
+  // Defensive title resolution (AniList-safe)
+  const title = data?.title?.english ?? data?.title?.romaji ?? "Anime Details";
+
+  return {
+    title,
+    description: data?.description ?? "Anime details on Anipact",
+    openGraph: {
+      siteName: "Anipact",
+      title,
+      description: data?.description ?? "Anime details on Anipact",
+      type: "website",
+      locale: "en_US",
+      images: data?.coverImage?.extraLarge
+        ? [
+            {
+              url: data.coverImage.extraLarge,
+              width: 800,
+              height: 600,
+            },
+          ]
+        : [],
+    },
+  };
+}
+
+const AnimeDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ animeid: string }>;
+}) => {
+  const animeId = await params.then((params) => params.animeid);
+
+  return <AnimeDetailsClientPage animeid={animeId} />;
 };
 
 export default AnimeDetailsPage;
