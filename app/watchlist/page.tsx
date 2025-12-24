@@ -25,7 +25,7 @@ const WatchlistPage: React.FC = () => {
   });
   return (
     <div className="p-5">
-      <h1 className="text-[3rem] font-xirod mt-10 ml-6 mb-20">
+      <h1 className="text-[2rem] xl:text-[3rem] font-xirod mt-10 xl:ml-6 mb-20">
         Your Watchlist
       </h1>
 
