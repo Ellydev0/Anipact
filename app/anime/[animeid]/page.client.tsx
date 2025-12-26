@@ -14,6 +14,7 @@ const AnimeDetailsClientPage = ({ animeid }: { animeid: string }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["anime", animeid],
     queryFn: () => fetchAnimeDetails(Number(animeid)),
+    gcTime: 0,
   });
 
   return (

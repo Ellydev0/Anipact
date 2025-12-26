@@ -1,11 +1,15 @@
+import { QueryFunctionContext } from "@tanstack/react-query";
 import type {
   fetchAnimeDetailsResponseType,
+  fetchAnimeMetadataResponseType,
+  fetchAnimeRecommendationsResponseType,
+  fetchAnimeSearchResponseType,
+  fetchAnimeWatchlistResponseType,
   fetchInfiniteAnimeResponseType,
   fetchMostPopularAnimeResponseType,
-  fetchAnimeRecommendationsResponseType,
-  fetchAnimeWatchlistResponseType,
 } from "./fetchAnimeTypes";
-import { QueryFunctionContext } from "@tanstack/react-query";
+
+const URL = "https://graphql.anilist.co";
 
 export async function fetchTrendingAnime({
   pageParam = 1,
@@ -21,8 +25,6 @@ export async function fetchTrendingAnime({
             id
             genres
             meanScore
-            bannerImage
-            description
             seasonYear
             season
             status
@@ -48,7 +50,7 @@ export async function fetchTrendingAnime({
   };
 
   try {
-    const res = await fetch("https://graphql.anilist.co", {
+    const res = await fetch(URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -81,8 +83,6 @@ export async function fetchPopularAnime({
             id
             genres
             meanScore
-            bannerImage
-            description
             seasonYear
             season
             status
@@ -121,8 +121,7 @@ export async function fetchPopularAnime({
   };
 
   try {
-    console.log(pageParam);
-    const res = await fetch("https://graphql.anilist.co", {
+    const res = await fetch(URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -200,7 +199,7 @@ export async function fetchMostPopularAnime(): Promise<
   };
 
   try {
-    const res = await fetch("https://graphql.anilist.co", {
+    const res = await fetch(URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -283,7 +282,45 @@ export async function fetchAnimeDetails(
     mediaId,
   };
 
-  const res = await fetch("https://graphql.anilist.co", {
+  const res = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables,
+    }),
+  });
+  const json = await res.json();
+  return json.data.Media;
+}
+
+export async function fetchAnimeMetadata(
+  mediaId: number,
+): Promise<fetchAnimeMetadataResponseType> {
+  const query = `query Media($type: MediaType, $isAdult: Boolean, $mediaId: Int) {
+    Media(type: $type, isAdult: $isAdult, id: $mediaId) {
+      title {
+        english
+        romaji
+      }
+      coverImage {
+        extraLarge
+        color
+      }
+      description
+    }
+  }`;
+
+  const variables = {
+    type: "ANIME",
+    isAdult: false,
+    mediaId,
+  };
+
+  const res = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -339,7 +376,7 @@ export async function fetchAnimeRecommendations(
     }
   `;
 
-  const res = await fetch("https://graphql.anilist.co", {
+  const res = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -387,7 +424,7 @@ export const fetchAnimeWatchlist = async (
 
   `;
 
-  const res = await fetch("https://graphql.anilist.co", {
+  const res = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -397,6 +434,43 @@ export const fetchAnimeWatchlist = async (
       query,
       variables: {
         ids,
+      },
+    }),
+  });
+
+  const json = await res.json();
+  return json.data.Page.media;
+};
+
+export const fetchAnimeSearch = async (
+  search: string,
+): Promise<fetchAnimeSearchResponseType[]> => {
+  const query = `
+    query ($search: String, $isAdult: Boolean) {
+      Page(page: 1, perPage: 6) {
+        media(type: ANIME, search: $search, isAdult: $isAdult) {
+          id
+          title {
+            english
+            romaji
+          }
+          genres
+        }
+      }
+    }
+  `;
+
+  const res = await fetch(URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables: {
+        search,
+        isAdult: false,
       },
     }),
   });

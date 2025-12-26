@@ -18,11 +18,12 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
     useInfiniteQuery({
       queryKey: ["anime-recommendations", mediaId],
       queryFn: fetchAnimeRecommendations,
-      initialPageParam: 1,
+      initialPageParam: 0,
       getNextPageParam: (lastPage) =>
         lastPage.pageInfo.hasNextPage
           ? lastPage.pageInfo.currentPage + 1
           : undefined,
+      gcTime: 0,
     });
 
   const animes = React.useMemo(
@@ -53,7 +54,9 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
 
   return (
     <div className="pb-2">
-      <h1 className="text-2xl font-xirod mb-4 mt-15">Recommendations</h1>
+      <h1 className="text-lg md:text-2xl font-xirod mb-4 mt-15">
+        Recommendations
+      </h1>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
         {animes.map((anime, i) => (
           <AnimeCard
