@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import AnimeDetailsClientPage from "./page.client";
-import { fetchAnimeDetails } from "@/lib/fetchAnime";
+import { fetchAnimeMetadata } from "@/lib/fetchAnime";
 
 export async function generateMetadata({
   params,
@@ -16,9 +16,8 @@ export async function generateMetadata({
     };
   }
 
-  const data = await fetchAnimeDetails(animeId);
+  const data = await fetchAnimeMetadata(animeId);
 
-  // Defensive title resolution (AniList-safe)
   const title = data?.title?.english ?? data?.title?.romaji ?? "Anime Details";
 
   return {

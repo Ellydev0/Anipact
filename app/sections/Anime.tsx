@@ -16,26 +16,26 @@ const AnimeCard = dynamic(() => import("@/components/AnimeCard"), {
 
 const Anime = () => {
   const { animeType, setAnimeType } = useAnimeTypeStore();
+  const { message, setMessage } = useAnimeNotificationStore();
   const animeTypeRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  gsap.registerPlugin(useGSAP);
 
   const { data, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["anime", animeType],
     queryFn: animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
-    initialPageParam: 1,
+    initialPageParam: 0,
     getNextPageParam: (lastPage) =>
       lastPage.pageInfo.hasNextPage
         ? lastPage.pageInfo.currentPage + 1
         : undefined,
+    gcTime: 0,
   });
 
   const animes = useMemo(
     () => data?.pages.flatMap((p) => p.media) ?? [],
     [data],
   );
-
-  const { message, setMessage } = useAnimeNotificationStore();
-
-  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage) return;
@@ -56,8 +56,6 @@ const Anime = () => {
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, setMessage]);
-
-  gsap.registerPlugin(useGSAP);
 
   useGSAP(
     () => {

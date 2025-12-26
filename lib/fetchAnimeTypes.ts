@@ -26,7 +26,6 @@ export interface fetchInfiniteAnimeResponseType {
     id: number;
     genres: string[];
     meanScore: number;
-    description: string;
     seasonYear: number;
     season: string;
     episodes: number;
@@ -95,6 +94,18 @@ export interface fetchAnimeDetailsResponseType {
   };
 }
 
+export interface fetchAnimeMetadataResponseType {
+  title: {
+    english: string | null;
+    romaji: string | null;
+  };
+  coverImage: {
+    extraLarge: string;
+    color: string;
+  };
+  description: string;
+}
+
 export interface fetchAnimeRecommendationsResponseType {
   pageInfo: {
     currentPage: number;
@@ -137,4 +148,13 @@ export interface fetchAnimeWatchlistResponseType {
   coverImage: {
     extraLarge: string;
   };
+}
+
+export interface fetchAnimeSearchResponseType {
+  id: number;
+  title: {
+    english: string | null;
+    romaji: string | null;
+  };
+  genres: string[];
 }

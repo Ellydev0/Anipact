@@ -64,16 +64,13 @@ const Hero = () => {
       <Nav />
 
       <div
-        className="flex h-full absolute top-0 inset-0 -z-1 transition-transform duration-700 ease-in-out"
+        className="flex absolute top-0 inset-0 -z-1 transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {mostPopularAnimeImage.map((image, i) => (
-          <div
-            key={i}
-            className="relative min-w-full h-full bg-[url(/img/default.png)] bg-center"
-          >
+          <div key={i} className="relative min-w-full h-[90vh]">
             <Image
-              src={image}
+              src={image || "/img/default.png"}
               alt=""
               fill
               fetchPriority={i === 0 ? "high" : "auto"}

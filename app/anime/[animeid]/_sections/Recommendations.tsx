@@ -18,11 +18,12 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
     useInfiniteQuery({
       queryKey: ["anime-recommendations", mediaId],
       queryFn: fetchAnimeRecommendations,
-      initialPageParam: 1,
+      initialPageParam: 0,
       getNextPageParam: (lastPage) =>
         lastPage.pageInfo.hasNextPage
           ? lastPage.pageInfo.currentPage + 1
           : undefined,
+      gcTime: 0,
     });
 
   const animes = React.useMemo(
