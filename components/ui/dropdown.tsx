@@ -101,10 +101,10 @@ export const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
               <div className="bg-accent/20 w-full h-full absolute rounded-md border border-accent" />
             )}
             <div className="p-4 z-1 relative">
-              <h1 className="text-[1.1rem] font-bold">Anime News</h1>
+              <h1 className="text-[1.1rem] font-bold">Media Updates</h1>
               <p className="text-[.7rem] mt-1 text-muted">
-                Stay updated on trending anime news and events from trusted
-                sources.
+                Stay updated on trending media updates, including anime, manga,
+                and live-action, from trusted sources.
               </p>
             </div>
           </li>

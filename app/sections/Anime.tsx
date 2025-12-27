@@ -21,16 +21,17 @@ const Anime = () => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   gsap.registerPlugin(useGSAP);
 
-  const { data, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["anime", animeType],
-    queryFn: animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) =>
-      lastPage.pageInfo.hasNextPage
-        ? lastPage.pageInfo.currentPage + 1
-        : undefined,
-    gcTime: 0,
-  });
+  const { data, error, fetchNextPage, hasNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: ["anime", animeType],
+      queryFn:
+        animeType === "trending" ? fetchTrendingAnime : fetchPopularAnime,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage) =>
+        lastPage.pageInfo.hasNextPage
+          ? lastPage.pageInfo.currentPage + 1
+          : undefined,
+    });
 
   const animes = useMemo(
     () => data?.pages.flatMap((p) => p.media) ?? [],
@@ -128,7 +129,7 @@ const Anime = () => {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
         {animes?.map((anime) => (
-          <AnimeCard anime={anime} key={anime.id} isFetching={!anime} />
+          <AnimeCard anime={anime} key={anime.id} isFetching={isLoading} />
         ))}
       </div>
 

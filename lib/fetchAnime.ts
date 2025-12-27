@@ -43,7 +43,7 @@ export async function fetchTrendingAnime({
 
   const variables = {
     page: pageParam,
-    perPage: 8,
+    perPage: 4,
     isAdult: false,
     type: "ANIME",
     sort: "TRENDING_DESC",
