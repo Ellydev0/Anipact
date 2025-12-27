@@ -5,6 +5,7 @@ import { useDebounce } from "@/lib/hooks/useDebounce";
 import { fetchAnimeSearch } from "@/lib/fetchAnime";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "./ui/skeleton";
+import Link from "next/link";
 
 type SearchScreenProps = object;
 
@@ -48,8 +49,9 @@ export const SearchScreen = forwardRef<HTMLDivElement, SearchScreenProps>(
                     </li>
                   ))
               : data?.map((anime) => (
-                  <li
+                  <Link
                     key={anime.id}
+                    href={`/anime/${anime.id}`}
                     className="bg-card/40 hover:bg-card/60 active:bg-card rounded-sm p-3 pl-4"
                   >
                     {truncateText(
@@ -62,7 +64,7 @@ export const SearchScreen = forwardRef<HTMLDivElement, SearchScreenProps>(
                     >
                       {anime.genres.join(", ") || "N/A"}
                     </p>
-                  </li>
+                  </Link>
                 ))}
 
             {error && (

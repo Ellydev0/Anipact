@@ -16,13 +16,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { fetchMostPopularAnimeResponseType } from "@/lib/fetchAnimeTypes";
 
-const Hero = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["mostPopularAnime"],
-    queryFn: fetchMostPopularAnime,
-  });
+interface HeroProps {
+  data: fetchMostPopularAnimeResponseType[];
+  isLoading: boolean;
+}
 
+const Hero = ({ data, isLoading }: HeroProps) => {
   const [mostPopularAnimeImage, setMostPopularAnimeImage] = useState<string[]>(
     [],
   );

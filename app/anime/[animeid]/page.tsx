@@ -1,6 +1,10 @@
 import { Metadata } from "next";
-import AnimeDetailsClientPage from "./page.client";
+import dynamic from "next/dynamic";
 import { fetchAnimeMetadata } from "@/lib/fetchAnime";
+
+import Details from "./_sections/Details";
+import { fetchAnimeDetails } from "@/lib/fetchAnime";
+import Nav from "@/components/Nav";
 
 export async function generateMetadata({
   params,
@@ -42,6 +46,10 @@ export async function generateMetadata({
   };
 }
 
+const Recommendations = dynamic(() => import("./_sections/Recommendations"), {
+  ssr: true,
+});
+
 const AnimeDetailsPage = async ({
   params,
 }: {
@@ -49,7 +57,15 @@ const AnimeDetailsPage = async ({
 }) => {
   const animeId = await params.then((params) => params.animeid);
 
-  return <AnimeDetailsClientPage animeid={animeId} />;
+  const data = await fetchAnimeDetails(Number(animeId));
+
+  return (
+    <div className="w-screen px-5 lg:px-10 p-5 py-3 relative">
+      <Nav />
+      <Details data={data} />
+      <Recommendations mediaId={Number(animeId)} />
+    </div>
+  );
 };
 
 export default AnimeDetailsPage;

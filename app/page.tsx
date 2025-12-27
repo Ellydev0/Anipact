@@ -1,10 +1,10 @@
-import Hero from "./sections/Hero";
 import Anime from "./sections/Anime";
+import HeroWrapper from "./sections/HeroWrapper";
 
 export default function Home() {
   return (
     <div>
-      <Hero />
+      <HeroWrapper />
       <Anime />
     </div>
   );
