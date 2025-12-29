@@ -17,12 +17,40 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Anipact - All of Anime Bound by One Pact",
+  title: "Anipact — All of Anime, Bound by One Pact",
   description:
-    "Join millions staying in sync with trending anime and the latest news — all under one pact.",
+    "Stay in sync with trending anime, latest news, and media updates — all in one place.",
   applicationName: "Anipact",
-  keywords: ["anipact", "anime", "pact", "news"],
+  keywords: [
+    "anime",
+    "anime news",
+    "trending anime",
+    "anime updates",
+    "Anipact",
+  ],
   authors: [{ name: "Elliot Otoijagha", url: "https://github.com/Ellydev0" }],
+  openGraph: {
+    siteName: "Anipact",
+    title: "Anipact — All of Anime, Bound by One Pact",
+    description:
+      "Stay in sync with trending anime, news, and media updates — all under one pact.",
+    type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/logo.png",
+        width: 600,
+        height: 600,
+        alt: "Anipact Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Anipact — All of Anime, Bound by One Pact",
+    description:
+      "Trending anime, news, and media updates — all under one pact.",
+  },
 };
 
 export default function RootLayout({

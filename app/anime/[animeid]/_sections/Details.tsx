@@ -73,7 +73,12 @@ const Details = ({
             </h1>
             <p className="text-sm text-muted">
               Source:{" "}
-              <a href="https://anilist.co/" className="underline">
+              <a
+                href="https://anilist.co/"
+                className="underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Anilist
               </a>
             </p>

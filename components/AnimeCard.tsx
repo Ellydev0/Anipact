@@ -13,7 +13,7 @@ import { truncateText } from "@/lib/truncateText";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
 import { useWatchlistStore } from "@/store/WatchlistStore";
-import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
+import { showToast } from "@/lib/Toast";
 
 interface AnimeCardProps {
   anime: fetchInfiniteAnimeResponseType["media"];
@@ -29,19 +29,18 @@ const AnimeCard = memo(function AnimeCard({
   const [imageSrc, setImageSrc] = useState<string>("/img/default.png");
   const { watchlist, addToWatchlist, removeFromWatchlist } =
     useWatchlistStore();
-  const { setMessage } = useAnimeNotificationStore();
 
   const toggleWatchList = () => {
     if (watchlist.includes(anime.id)) {
       removeFromWatchlist(anime.id);
-      setMessage(`Removed from watchlist`);
+      showToast("Removed from watchlist");
     } else {
       if (watchlist.length >= 20) {
-        setMessage(`You have reached the maximum watchlist limit (20)`);
+        showToast(`You have reached the maximum watchlist limit (20)`);
         return;
       }
       addToWatchlist(anime.id);
-      setMessage(`Added to watchlist`);
+      showToast(`Added to watchlist`);
     }
   };
 

@@ -178,3 +178,21 @@
         }
     }
 }
+
+/*Toast styles*/
+.notify {
+    transition:
+        transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: opacity, transform;
+}
+.notify.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.notify.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}

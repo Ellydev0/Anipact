@@ -75,12 +75,11 @@ export const SearchScreen = forwardRef<HTMLDivElement, SearchScreenProps>(
                 No results found
               </li>
             )}
-            {data === undefined ||
-              (data.length === 0 && !isLoading && (
-                <li className="text-center text-muted-foreground">
-                  Start by typing more than 3 letters to search
-                </li>
-              ))}
+            {searchTerm.length < 3 && !isLoading && (
+              <li className="text-center text-muted-foreground">
+                Start by typing at least 3 letters to search
+              </li>
+            )}
           </ul>
         </div>
       </div>

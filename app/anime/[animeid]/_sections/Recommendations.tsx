@@ -4,16 +4,13 @@ import * as React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchAnimeRecommendations } from "@/lib/fetchAnime";
 import AnimeCard from "@/components/AnimeCard";
-import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
-import Notification from "@/components/Notifications";
+import { showToast } from "@/lib/Toast";
 
 interface RecommendationsProps {
   mediaId: number;
 }
 
 const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
-  const { setMessage, message } = useAnimeNotificationStore();
-
   const { data, error, fetchNextPage, hasNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["anime-recommendations", mediaId],
@@ -39,9 +36,9 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(async () => {
-            setMessage("Loading Anime ...");
+            showToast("Loading Anime ...");
             await fetchNextPage();
-            setMessage("Done Loading Anime");
+            showToast("Done Loading Anime");
           }, 500);
         }
       },
@@ -50,7 +47,7 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
 
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, setMessage]);
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className="pb-2">
@@ -66,7 +63,6 @@ const Recommendations: React.FC<RecommendationsProps> = ({ mediaId }) => {
           />
         ))}
       </div>
-      <Notification message={message} />
       {error && (
         <p className="text-red-500 text-[1rem] text-center">
           An error has occurred

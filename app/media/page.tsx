@@ -1,6 +1,33 @@
 import Nav from "@/components/Nav";
 import { fetchAnimeNews } from "@/lib/fetchAnimeNews";
 import News from "./News";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Media Updates | AniPact",
+  description:
+    "Latest anime, manga, and live-action media updates including news, releases, and industry announcements.",
+  keywords: [
+    "anime news",
+    "manga updates",
+    "anime releases",
+    "media updates",
+    "AniPact",
+  ],
+  openGraph: {
+    title: "Media Updates | AniPact",
+    description:
+      "Stay updated with the latest anime, manga, and live-action media updates from trusted sources.",
+    type: "website",
+    siteName: "AniPact",
+  },
+  twitter: {
+    card: "summary",
+    title: "Media Updates | AniPact",
+    description:
+      "Latest anime, manga, and live-action media updates — all in one place.",
+  },
+};
 
 const MediaUpdatesPage = async () => {
   const data = await fetchAnimeNews();

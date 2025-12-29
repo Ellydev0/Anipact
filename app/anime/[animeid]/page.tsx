@@ -27,6 +27,12 @@ export async function generateMetadata({
   return {
     title,
     description: data?.description ?? "Anime details on Anipact",
+    keywords: [
+      "anime details",
+      "AniPact",
+      data?.title?.english ?? "Anime Details",
+      data?.title?.romaji ?? "Anime Details",
+    ],
     openGraph: {
       siteName: "Anipact",
       title,
@@ -42,6 +48,11 @@ export async function generateMetadata({
             },
           ]
         : [],
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description: data?.description ?? "Anime details on Anipact",
     },
   };
 }
