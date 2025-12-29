@@ -1,14 +1,13 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useMemo } from "react";
-import Notification from "@/components/Notifications";
+import { showToast } from "@/lib/Toast";
 import { fetchPopularAnime, fetchTrendingAnime } from "@/lib/fetchAnime";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { CornerUpRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useAnimeTypeStore } from "@/store/AnimeTypeStore";
-import { useAnimeNotificationStore } from "@/store/AnimeNotificationStore";
 
 const AnimeCard = dynamic(() => import("@/components/AnimeCard"), {
   ssr: false,
@@ -16,7 +15,7 @@ const AnimeCard = dynamic(() => import("@/components/AnimeCard"), {
 
 const Anime = () => {
   const { animeType, setAnimeType } = useAnimeTypeStore();
-  const { message, setMessage } = useAnimeNotificationStore();
+  // const { message, setMessage } = useAnimeNotificationStore();
   const animeTypeRef = useRef<HTMLDivElement>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
   gsap.registerPlugin(useGSAP);
@@ -45,9 +44,9 @@ const Anime = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setTimeout(async () => {
-            setMessage("Loading Anime ...");
+            showToast("Loading Anime ...");
             await fetchNextPage();
-            setMessage("Done Loading Anime");
+            showToast("Done Loading Anime");
           }, 500);
         }
       },
@@ -56,7 +55,7 @@ const Anime = () => {
 
     observer.observe(loadMoreRef.current);
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, setMessage]);
+  }, [fetchNextPage, hasNextPage]);
 
   useGSAP(
     () => {
@@ -93,7 +92,12 @@ const Anime = () => {
           <span>anime 🔥</span>
           <div className="text-sm text-muted">
             Source:{" "}
-            <a href="https://anilist.co/" className="underline">
+            <a
+              href="https://anilist.co/"
+              className="underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Anilist
             </a>
           </div>
@@ -132,8 +136,6 @@ const Anime = () => {
           <AnimeCard anime={anime} key={anime.id} isFetching={isLoading} />
         ))}
       </div>
-
-      <Notification message={message} />
 
       {error && (
         <p className="text-red-500 text-[1rem] text-center">
