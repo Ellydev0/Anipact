@@ -15,7 +15,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
-
+// <meta name="google-site-verification" content="y3uTTP4pdSdN-kFzC9LHz2as2FzLQt0FvifwfwXoBH0" />
 export const metadata: Metadata = {
   title: "Anipact — All of Anime, Bound by One Pact",
   description:
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/logo.png",
+        url: "https://anipact.vercel.app/logo.png",
         width: 600,
         height: 600,
         alt: "Anipact Logo",
@@ -50,6 +50,18 @@ export const metadata: Metadata = {
     title: "Anipact — All of Anime, Bound by One Pact",
     description:
       "Trending anime, news, and media updates — all under one pact.",
+    images: [
+      {
+        url: "https://anipact.vercel.app/logo.png",
+        width: 600,
+        height: 600,
+        alt: "Anipact Logo",
+      },
+    ],
+    creator: "@Ellydev0",
+  },
+  other: {
+    googleSiteVerification: "y3uTTP4pdSdN-kFzC9LHz2as2FzLQt0FvifwfwXoBH0",
   },
 };
 
